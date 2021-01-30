@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="registerForm" (ngSubmit)="submit()">
+    <ion-item>
+      <ion-label>Name</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+    
+    <div *ngIf="name.invalid && (name.dirty || name.touched)">
+      <p *ngIf="name.errors.required">This field is required</p>
+    </div>
+    
+    <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+
+    <div *ngIf="email.invalid && (email.dirty || email.touched)">
+      <p *ngIf="email.errors.required">This field is required</p>
+      <p *ngIf="email.errors.email">This field must be an email address</p>
+    </div>
+    
+
+    <ion-item>
+      <ion-label>Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+
+    <div *ngIf="password.invalid && (password.dirty || password.touched)">
+      <p *ngIf="password.errors.required">This field is required</p>
+    </div>
+    
+    <ion-item>
+      <ion-label>Password confirmation</ion-label>
+      <ion-input type="password" formControlName="password_confirmation"></ion-input>
+    </ion-item>
+    
+    <div *ngIf="passwordConfirmation.invalid && (passwordConfirmation.dirty || passwordConfirmation.touched)">
+      <p *ngIf="passwordConfirmation.errors.required">This field is required</p>
+      
+    </div>
+
+    <p *ngIf="registerForm.errors?.passwordMissmatch && (registerForm.touched || registerForm.dirty)">Passwords should match
+    </p>
+    
+    <ion-button type="submit">Register</ion-button>
+  </form>
+</ion-content>

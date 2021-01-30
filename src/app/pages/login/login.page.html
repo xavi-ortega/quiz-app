@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="loginForm" (ngSubmit)="submit()">
+    <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+
+    <div *ngIf="email.invalid && (email.dirty || email.touched)">
+      <p *ngIf="email.errors.required">This field is required</p>
+      <p *ngIf="email.errors.email">This field must be an email address</p>
+    </div>
+
+    <ion-item>
+      <ion-label>Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+
+    <div *ngIf="password.invalid && (password.dirty || password.touched)">
+      <p *ngIf="password.errors.required">This field is required</p>
+    </div>
+
+    <ion-button type="submit">Sign in</ion-button>
+  </form>
+</ion-content>

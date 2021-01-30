@@ -1,0 +1,7 @@
+<ion-reorder-group (ionItemReorder)="doReorder($event)" [disabled]="disabled">
+  <ion-reorder *ngFor="let item of items">
+    <ion-item>
+      <ion-label>{{ item.label }}</ion-label>
+    </ion-item>
+  </ion-reorder>
+</ion-reorder-group>
