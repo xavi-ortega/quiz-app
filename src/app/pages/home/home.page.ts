@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Quiz } from 'src/app/interfaces/quiz';
+import { QuizService } from 'src/app/services/quiz/quiz.service';
 
 @Component({
   selector: 'app-home',
@@ -7,34 +10,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  homeForm: FormGroup;
+  quizzes$: Observable<Quiz[]>;
 
-  items = [
-    {
-      label: 'Item 1',
-      value: 1,
-    },
-    {
-      label: 'Item 2',
-      value: 3,
-    },
-    {
-      label: 'Item 3',
-      value: 5,
-    },
-    {
-      label: 'Item 4',
-      value: 7,
-    },
-  ];
-
-  constructor() {}
+  constructor(private quizService: QuizService) {}
 
   ngOnInit() {
-    this.homeForm = new FormGroup({
-      reorder: new FormControl([5, 3, 1, 7], Validators.required),
-    });
-
-    this.homeForm.valueChanges.subscribe(console.log);
+    this.quizzes$ = this.quizService.getAll();
   }
 }

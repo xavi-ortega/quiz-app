@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Plugins } from '@capacitor/core';
-import { HttpClient } from '@angular/common/http';
-import { AuthResponse } from '../interfaces/auth';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthResponse } from '../../interfaces/auth';
 import { mapTo, catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { HttpCommonService } from '../../utils/http-common.service';
 
 const { Storage } = Plugins;
 
@@ -21,7 +22,7 @@ export class AuthService {
   private token$: BehaviorSubject<string> = new BehaviorSubject('');
   private isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpCommon: HttpCommonService) {
     Storage.get({
       key: AUTH_STORAGE_KEY,
     }).then(({ value: token }) => {
@@ -81,6 +82,13 @@ export class AuthService {
       value: token,
     });
 
+    this.httpCommon.setHeaders(
+      new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      })
+    );
+
     this.isAuthenticated$.next(true);
   }
 
@@ -90,6 +98,8 @@ export class AuthService {
     Storage.remove({
       key: AUTH_STORAGE_KEY,
     });
+
+    this.httpCommon.setHeaders(undefined);
 
     this.isAuthenticated$.next(false);
   }

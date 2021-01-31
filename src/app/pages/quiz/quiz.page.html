@@ -1,0 +1,18 @@
+<ng-container *ngIf="quiz$ | async as quiz">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>{{ quiz.title }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-text> {{ quiz.body }} </ion-text>
+
+    <ng-container *ngFor="let question of quiz.questions">
+      <ion-label>{{ question.label }}</ion-label>
+      <reorder-control [items]="question.items"></reorder-control>
+    </ng-container>
+
+    <ion-button (click)="submit()">Send</ion-button>
+  </ion-content>
+</ng-container>
